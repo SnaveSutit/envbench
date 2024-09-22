@@ -24,31 +24,22 @@ async function startBlockbench(env: string) {
 }
 
 async function main() {
+	const args = process.argv.slice(2)
+
 	let i = 0
 	while (i < process.argv.length) {
-		const arg = process.argv[i]
+		const arg = args[i]
 
 		switch (arg) {
-			case 'help': {
-				term('Help: \n')
-				term('  help - Display this message\n')
-				term('  version - Display version\n')
-				term('  new <folder> - Create a new Blockbench environment\n')
-				term(
-					'  run [folder] - Run a Blockbench environment. If no folder is provided, the current directory is used.\n'
-				)
-				break
-				break
-			}
 			case 'version': {
 				term('BBEnv Version: ', PACKAGE.version, '\n')
-				break
+				process.exit(0)
 			}
 			case 'new': {
-				const folder = process.argv[i + 1]
+				const folder = args[i + 1]
 				if (!folder) {
 					term.red('Please provide a folder name!\n')
-					break
+					process.exit(0)
 				}
 
 				term(`Create a new Blockbench environment in folder: ${folder}?\n`)
@@ -85,10 +76,10 @@ async function main() {
 					term.red('Cancelled!\n')
 					process.exit(0)
 				}
-				break
+				process.exit(0)
 			}
 			case 'run': {
-				let folder = process.argv[i + 1]
+				let folder = args[i + 1]
 				folder ??= process.cwd()
 				folder = pathjs.resolve(folder)
 				// check if the folder has a .bbenv.json file
@@ -102,7 +93,17 @@ async function main() {
 				}
 				term.green('Starting Blockbench...\n')
 				await startBlockbench(folder)
-				break
+				term.green('Blockbench closed!\n')
+				process.exit(0)
+			}
+			default: {
+				term('Usage: \n')
+				term('  version - Display version\n')
+				term('  new <folder> - Create a new Blockbench environment\n')
+				term(
+					'  run [folder] - Run a Blockbench environment. If no folder is provided, the current directory is used.\n'
+				)
+				process.exit(0)
 			}
 		}
 		i++

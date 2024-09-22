@@ -1,6 +1,7 @@
 {
 	"name": "bbenv",
-	"version": "1.0.0",
+	"description": "A simple CLI tool that helps you make and manage exclusive Blockbench environments.",
+	"version": "1.0.1",
 	"author": {
 		"name": "Titus Evans (SnaveSutit)",
 		"email": "snavesutit@gmail.com",
@@ -10,7 +11,11 @@
 		"type": "github",
 		"url": "https://github.com/snavesutit/bbenv"
 	},
+	"type": "commonjs",
 	"bin": "./dist/index.cjs",
+	"files": [
+		"dist"
+	],
 	"scripts": {
 		"dev": "tsx",
 		"build": "pkgroll",

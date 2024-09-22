@@ -16,7 +16,6 @@ bbenv <command> [options]
 
 ## Commands
 
--   `help` - Display help
 -   `version` - Display version
 -   `new <folder>` - Create a new environment
 -   `run [<folder>]` - Run an environment
