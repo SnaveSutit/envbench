@@ -1,5 +1,5 @@
 {
-	"name": "bbenv",
+	"name": "envbench",
 	"description": "A simple CLI tool that helps you make and manage exclusive Blockbench environments.",
 	"version": "1.0.1",
 	"author": {

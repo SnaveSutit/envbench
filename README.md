@@ -1,17 +1,17 @@
-# bbenv
+# envbench
 
 A simple CLI tool that helps you make and manage exclusive Blockbench environments.
 
 ## Installation
 
 ```bash
-npm i -g bbenv
+npm i -g envbench
 ```
 
 ## Usage
 
 ```bash
-bbenv <command> [options]
+envbench <command> [options]
 ```
 
 ## Commands
