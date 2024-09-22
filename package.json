@@ -1,0 +1,28 @@
+{
+	"name": "bbenv",
+	"version": "1.0.0",
+	"author": {
+		"name": "Titus Evans (SnaveSutit)",
+		"email": "snavesutit@gmail.com",
+		"url": "https://discordapp.com/users/213746232923783168"
+	},
+	"repository": {
+		"type": "github",
+		"url": "https://github.com/snavesutit/bbenv"
+	},
+	"bin": "./dist/index.cjs",
+	"scripts": {
+		"dev": "tsx",
+		"build": "pkgroll",
+		"start": "node ./dist/index.cjs"
+	},
+	"devDependencies": {
+		"@types/node": "^22.5.5",
+		"pkgroll": "^2.5.0",
+		"tsx": "^4.19.1"
+	},
+	"dependencies": {
+		"@types/terminal-kit": "^2.5.6",
+		"terminal-kit": "^3.1.1"
+	}
+}
