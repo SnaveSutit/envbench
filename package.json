@@ -1,7 +1,7 @@
 {
 	"name": "envbench",
 	"description": "A simple CLI tool that helps you make and manage exclusive Blockbench environments.",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"author": {
 		"name": "Titus Evans (SnaveSutit)",
 		"email": "snavesutit@gmail.com",
@@ -9,7 +9,7 @@
 	},
 	"repository": {
 		"type": "github",
-		"url": "https://github.com/snavesutit/bbenv"
+		"url": "https://github.com/SnaveSutit/envbench"
 	},
 	"type": "commonjs",
 	"bin": "./dist/index.cjs",
