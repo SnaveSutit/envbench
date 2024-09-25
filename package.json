@@ -1,7 +1,7 @@
 {
 	"name": "envbench",
 	"description": "A simple CLI tool that helps you make and manage exclusive Blockbench environments.",
-	"version": "2.0.1",
+	"version": "2.0.2",
 	"author": {
 		"name": "Titus Evans (SnaveSutit)",
 		"email": "snavesutit@gmail.com",
@@ -20,7 +20,8 @@
 		"dev": "tsx ./src/index.ts",
 		"build": "pkgroll",
 		"test": "yarn build && npm i -g .",
-		"start": "node ./dist/index.cjs"
+		"start": "node ./dist/index.cjs",
+		"publish": "yarn build && npm publish"
 	},
 	"devDependencies": {
 		"@types/node": "^22.5.5",
