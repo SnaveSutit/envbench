@@ -1,7 +1,7 @@
 {
 	"name": "envbench",
 	"description": "A simple CLI tool that helps you make and manage exclusive Blockbench environments.",
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"author": {
 		"name": "Titus Evans (SnaveSutit)",
 		"email": "snavesutit@gmail.com",
