@@ -4,6 +4,15 @@ A simple CLI tool that helps you make and manage exclusive Blockbench environmen
 
 ## Installation
 
+### Requirements
+
+-   [Node.js](https://nodejs.org/en/download/prebuilt-installer)
+
+### Install
+
+1. Open a terminal, on windows you can use `cmd` or `powershell`.
+2. Run the following command in the terminal:
+
 ```bash
 npm i -g envbench
 ```
@@ -13,6 +22,8 @@ npm i -g envbench
 ```bash
 envbench [command] [options]
 ```
+
+Running `envbench` without any arguments will show help information.
 
 ## Commands
 
