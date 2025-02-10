@@ -1,7 +1,7 @@
 {
 	"name": "envbench",
 	"description": "Envbench allows the creation and management of multiple unique Blockbench environments.",
-	"version": "3.0.0",
+	"version": "3.0.1",
 	"author": {
 		"name": "Titus Evans (SnaveSutit)",
 		"email": "snavesutit@gmail.com",
