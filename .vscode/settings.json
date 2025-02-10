@@ -1,0 +1,28 @@
+{
+	"eslint.enable": true,
+	"editor.formatOnSave": true,
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"eslint.codeActionsOnSave.mode": "problems",
+	"eslint.format.enable": false,
+	"editor.codeActionsOnSave": {
+		"source.fixAll.ts": "explicit",
+		"source.fixAll.eslint": "explicit",
+		"source.fixAll.sortJSON": "explicit",
+		"source.addMissingImports.ts": "explicit",
+		"source.organizeImports": "explicit",
+		"source.sortImports": "explicit",
+		"source.removeUnused.ts": "never",
+		"source.removeUnusedImports": "explicit",
+		"source.organizeLinkDefinitions": "explicit"
+	},
+	"imports"
+	"files.exclude": {
+		"**/.git": true,
+		"**/.svn": true,
+		"**/.hg": true,
+		"**/CVS": true,
+		"**/.DS_Store": true,
+		"**/Thumbs.db": true,
+		"**/node_modules": true
+	}
+}
