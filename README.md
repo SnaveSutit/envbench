@@ -1,35 +1,62 @@
-# envbench
+<div align=center>
+    <picture>
+        <img src="assets/envbench-logo.svg" alt="Envbench Logo" width="128" height="128">
+    </picture>
+    <summary>
+        <h1>Envbench</h1>
+    </summary>
+    <p>Envbench is a powerful command-line tool that provides a simple interface for managing multiple Blockbench environments.</p>
+</div>
 
-Envbench provides a simple interface for making and managing multiple separate Blockbench environments.
+---
 
-There are many reasons you might want to use multiple environments, such as:
+# 💡 Why Use Envbench?
 
--   You want to keep your work and personal projects separate to avoid NDA hazards whenever you open Blockbench.
--   You want clean environments for developing and testing plugins.
--   You want to keep your environments organized and easy to access.
--   You want to save completely different instances for different projects, so your start menu only contains the models you're currently working on.
+There are several reasons you might want to have multiple environments:
 
-## Installation
+-   Keep work and personal projects separate to prevent NDA risks when opening Blockbench.
+-   Maintain clean environments for developing and testing plugins.
+-   Have multiple versions of Blockbench installed without conflicts.
+-   Save different instances for different projects, ensuring your start menu only displays relevant models.
 
-### Requirements
+# 📦 Installation
+
+### ⚠️ Requirements
 
 -   [Node.js](https://nodejs.org/en/download/prebuilt-installer)
 
-### Install
+### 🪜 Steps
 
-1. Open a terminal, on windows you can use `cmd` or `powershell`.
-2. Run the following command in the terminal:
+1. Open a terminal (`cmd` or `PowerShell` on Windows).
+2. Run the following command:
     ```bash
     npm i -g envbench
     ```
-3. To verify the installation, run `envbench` in the terminal. You should see the help information for EnvBench as shown below.
+3. Verify the installation by running:
+    ```bash
+    envbench
+    ```
+    If installed correctly, you should see Envbench's help information.
 
-## Usage
+# ⌨️ Getting Started
+
+### Usage
 
 ```bash
 envbench <command> [options]
 ```
 
-Running `envbench` without any arguments will show help information.
+> [!TIP]
+> Running `envbench` without arguments will list all available commands.
 
-![An example of the help command](/assets/basic-usage.png)
+### Creating a new environment
+
+```bash
+envbench create my-environment
+```
+
+### Starting your environment
+
+```bash
+envbench start my-environment
+```
