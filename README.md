@@ -1,10 +1,12 @@
-<div align=center>
+<div id="toc" align=center>
     <picture>
         <img src="assets/envbench-logo.svg" alt="Envbench Logo" width="128" height="128">
     </picture>
-    <summary>
-        <h1>Envbench</h1>
-    </summary>
+    <ul style="list-style: none;">
+        <summary>
+            <h1>Envbench</h1>
+        </summary>
+    </ul>
     <p>Envbench is a powerful command-line tool that provides a simple interface for managing multiple Blockbench environments.</p>
 </div>
 
