@@ -9,7 +9,6 @@ import { checkArgs, customSpinner, exists, getEnvironmentFiles, isOnline, log } 
 const RELEASES_API_URL = 'https://api.github.com/repos/JannisX11/Blockbench/releases'
 const RELEASE_TAGS_URL = RELEASES_API_URL + '/tags'
 const LATEST_RELEASE_URL = RELEASES_API_URL + '/latest'
-const VERSION_REGEX = /^v?\d+\.\d+\.\d+$/m
 const MINIMUM_BLOCKBENCH_VERSION: ResolvedBlockbenchVersion = '4.10.0'
 
 export type NamedBlockbenchVersion = 'latest' | 'beta' | `${'v' | ''}${number}.${number}.${number}`
@@ -43,13 +42,7 @@ async function resolveVersion(version: NamedBlockbenchVersion) {
 	} else if (version === 'latest') {
 		version = await getLatestBlockbenchVersion()
 	} else if (version === 'beta') {
-		throw new Error('Beta versions are not supported yet!')
-	} else {
-		if (!VERSION_REGEX.test(version)) {
-			throw new Error(
-				`Invalid version: '${version}'. Must match ${VERSION_REGEX}, 'latest', or 'beta'`
-			)
-		}
+		version = await getLatestBetaBlockbenchVersion()
 	}
 	return (version.startsWith('v') ? version.slice(1) : version) as ResolvedBlockbenchVersion
 }
@@ -131,6 +124,15 @@ async function getLatestBlockbenchVersion() {
 	if (!res.ok) throw new Error(`Failed to fetch latest Blockbench release: ${res.statusText}`)
 	const json = await res.json()
 	return json.tag_name as NamedBlockbenchVersion
+}
+
+async function getLatestBetaBlockbenchVersion() {
+	const res = await fetch(RELEASES_API_URL)
+	if (!res.ok) throw new Error(`Failed to fetch Blockbench releases: ${res.statusText}`)
+	const json = await res.json()
+	const betaRelease = json.find((release: any) => release.prerelease)
+	if (!betaRelease) throw new Error('No beta release found!')
+	return betaRelease.tag_name as NamedBlockbenchVersion
 }
 
 async function isVersionInstalled(version: NamedBlockbenchVersion) {
