@@ -1,8 +1,8 @@
 import chalk from 'chalk'
 import { Command } from 'commander'
 import ESBuild from 'esbuild'
-import ImportGlobPlugin from 'esbuild-plugin-import-glob'
 import * as fs from 'fs'
+import ImportFolder from './esbuild-plugins/importFolder'
 
 const PROGRAM = new Command()
 
@@ -118,7 +118,7 @@ const DEFAULT_BUILD_OPTIONS: ESBuild.BuildOptions = {
 		'.ttf': 'binary',
 		'': 'text', // Fix for terminal-kit's README being loaded as JavaScript
 	},
-	plugins: [INFO_PLUGIN, ImportGlobPlugin()],
+	plugins: [INFO_PLUGIN, ImportFolder()],
 	define: DEFINES,
 	external: ['terminal-kit'],
 	treeShaking: true,

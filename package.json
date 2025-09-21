@@ -17,7 +17,7 @@
 		"dist"
 	],
 	"scripts": {
-		"typescript-esbuild": "tsx ./tools/esbuild.ts",
+		"typescript-esbuild": "tsx ./.scripts/esbuild.ts",
 		"dev": "node-modules-vscode-problems-patch && yarn typescript-esbuild --dev",
 		"build": "yarn typescript-esbuild",
 		"envbench": "node ./dist/envbench.js",

@@ -1,10 +1,13 @@
 import './env'
+// The order of these imports is important
+import './commands//'
 //
 import { Command, Help } from 'commander'
 import { description } from '../package.json'
-import registerCommands from './commands'
-import { EnvBenchHelp } from './commands/_help'
-import { assertStorageFolder, updateOnlineStatus } from './util'
+import { registerCommands } from './commandRegistry'
+import { EnvBenchHelp } from './commands/help'
+import { assertStorageFolder } from './environmentHandler'
+import { updateOnlineStatus } from './util'
 
 class EnvBenchCommand extends Command {
 	createCommand(name?: string): Command {
@@ -15,16 +18,15 @@ class EnvBenchCommand extends Command {
 	}
 }
 
-export const PROGRAM = new EnvBenchCommand()
-
-PROGRAM.name('envbench').description(description)
-
-registerCommands(PROGRAM)
-
 async function main() {
+	const program = new EnvBenchCommand()
+	program.name('envbench').description(description)
+
+	await registerCommands(program)
+
 	try {
 		await Promise.all([updateOnlineStatus(), assertStorageFolder()])
-		await PROGRAM.parseAsync()
+		await program.parseAsync()
 	} catch (err: any) {
 		if (process.env.NODE_ENV === 'development') {
 			console.error(err)

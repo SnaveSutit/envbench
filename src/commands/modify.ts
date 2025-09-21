@@ -1,14 +1,14 @@
-import type { Command } from 'commander'
 import { NamedBlockbenchVersion } from '../blockbenchVersionManager'
 import {
-	checkArgs,
-	confirmPrompt,
 	environmentExists,
 	getEnvironmentFile,
-	log,
 	setEnvironmentFile,
-} from '../util'
-import { rename } from './_rename'
+	validateBlockbenchLaunchArgs,
+} from '../environmentHandler'
+import { confirmPrompt, log } from '../util'
+
+import { registerCommand } from '../commandRegistry'
+import { rename } from './rename'
 
 export async function modify(
 	name: string,
@@ -52,7 +52,7 @@ export async function modify(
 			.cyan(options.launchArgs)
 			.green(`...\n`)
 		const args = options.launchArgs.split(' ')
-		checkArgs(args)
+		validateBlockbenchLaunchArgs(args)
 		envFile.launchArgs = args
 	}
 
@@ -74,7 +74,7 @@ export async function modify(
 	}
 }
 
-export default function register(program: Command) {
+registerCommand(program => {
 	program
 		.command('modify')
 		.usage('<name> [options]')
@@ -88,4 +88,4 @@ export default function register(program: Command) {
 			'set the launch arguments to pass to Blockbench when launching the environment'
 		)
 		.action(modify)
-}
+})

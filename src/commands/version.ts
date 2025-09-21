@@ -1,8 +1,8 @@
-import { Command } from 'commander'
 import { version } from '../../package.json'
+import { registerCommand } from '../commandRegistry'
 import { log } from '../util'
 
-export default function register(program: Command) {
+registerCommand(program => {
 	program
 		.command('version')
 		.alias('v')
@@ -10,4 +10,4 @@ export default function register(program: Command) {
 		.action(() => {
 			log().green('v', version, '\n')
 		})
-}
+})

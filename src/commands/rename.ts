@@ -1,15 +1,16 @@
-import type { Command } from 'commander'
-import fs from 'fs/promises'
-import pathjs from 'path'
+import { rename as fsRename } from 'fs/promises'
+import { join } from 'path'
+import { registerCommand } from '../commandRegistry'
 import {
-	confirmPrompt,
 	environmentExists,
 	getEnvironmentFile,
-	log,
 	setEnvironmentFile,
-} from '../util'
+	validateEnvironmentName,
+} from '../environmentHandler'
+import { confirmPrompt, log } from '../util'
 
 export async function rename(name: string, newName: string, options: { confirm?: true }) {
+	validateEnvironmentName(newName)
 	if (!(await environmentExists(name))) {
 		log().red(`Environment `).cyan(name).red(` does not exist!\n`)
 		process.exit(1)
@@ -31,9 +32,9 @@ export async function rename(name: string, newName: string, options: { confirm?:
 		}
 	}
 	log().green(`Renaming environment `).cyan(name).green(` to `).cyan(newName).green(`...\n`)
-	const oldPath = pathjs.join(process.env.ENVBENCH_STORAGE_FOLDER, name)
-	const newPath = pathjs.join(process.env.ENVBENCH_STORAGE_FOLDER, newName)
-	await fs.rename(oldPath, newPath).catch(err => {
+	const oldPath = join(process.env.ENVBENCH_STORAGE_FOLDER, name)
+	const newPath = join(process.env.ENVBENCH_STORAGE_FOLDER, newName)
+	await fsRename(oldPath, newPath).catch(err => {
 		log().red(`Failed to rename environment:\n`)
 		log().error(err)
 		process.exit(1)
@@ -44,7 +45,7 @@ export async function rename(name: string, newName: string, options: { confirm?:
 	log().green(`Environment renamed successfully!\n`)
 }
 
-export default function register(program: Command) {
+registerCommand(program => {
 	program
 		.command('rename')
 		.description('rename an environment')
@@ -52,4 +53,4 @@ export default function register(program: Command) {
 		.argument('<newName>', 'new name of the environment')
 		.option('-c, --confirm', 'skip confirmation prompt')
 		.action(rename)
-}
+})

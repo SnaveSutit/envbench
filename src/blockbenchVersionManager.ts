@@ -1,10 +1,12 @@
 import { compare } from 'compare-versions'
 import { spawn } from 'node:child_process'
 import { mkdir, readdir, unlink, writeFile } from 'node:fs/promises'
+import { join, parse } from 'node:path'
 import { arch, platform } from 'os'
-import pathjs from 'path'
 import { terminal as $ } from 'terminal-kit'
-import { checkArgs, customSpinner, exists, getEnvironmentFiles, isOnline, log } from './util'
+import { getEnvironmentFiles, validateBlockbenchLaunchArgs } from './environmentHandler'
+import { exists } from './fileUtil'
+import { customSpinner, isOnline, log } from './util'
 
 const RELEASES_API_URL = 'https://api.github.com/repos/JannisX11/Blockbench/releases'
 const RELEASE_TAGS_URL = RELEASES_API_URL + '/tags'
@@ -36,7 +38,7 @@ function getNameProvider() {
 }
 const urlProvider = getNameProvider()
 
-async function resolveVersion(version: NamedBlockbenchVersion) {
+export async function resolveVersion(version: NamedBlockbenchVersion) {
 	if (version === undefined) {
 		throw new Error('No version specified!')
 	} else if (version === 'latest') {
@@ -80,7 +82,7 @@ async function downloadNewPortableBlockbench(version: ResolvedBlockbenchVersion)
 					`Failed to download Blockbench ${version} from ${url}: ${res.statusText}`
 				)
 			}
-			await mkdir(pathjs.parse(target).dir, { recursive: true })
+			await mkdir(parse(target).dir, { recursive: true })
 			await writeFile(target, Buffer.from(await res.arrayBuffer()))
 		},
 	})
@@ -90,7 +92,7 @@ async function downloadNewPortableBlockbench(version: ResolvedBlockbenchVersion)
 }
 
 function getPortablePath(version: ResolvedBlockbenchVersion) {
-	return pathjs.join(process.env.BLOCKBENCH_PORTABLES_CACHE, urlProvider(version)[1])
+	return join(process.env.BLOCKBENCH_PORTABLES_CACHE, urlProvider(version)[1])
 }
 
 export async function isValidBlockbenchVersion(version: NamedBlockbenchVersion) {
@@ -158,7 +160,7 @@ export async function installVersion(
 	await downloadNewPortableBlockbench(version)
 }
 
-export async function runBlockbench(
+export async function launchBlockbench(
 	version: NamedBlockbenchVersion,
 	environmentName: string,
 	args: string[] = []
@@ -175,8 +177,8 @@ export async function runBlockbench(
 		blockbenchPath = getPortablePath(resolvedVersion)
 	}
 
-	checkArgs(args)
-	const userDataFolder = pathjs.join(process.env.ENVBENCH_STORAGE_FOLDER, environmentName)
+	validateBlockbenchLaunchArgs(args)
+	const userDataFolder = join(process.env.ENVBENCH_STORAGE_FOLDER, environmentName)
 	args = ['--userData', userDataFolder, ...args]
 
 	return new Promise<void>((resolve, reject) => {
@@ -186,7 +188,7 @@ export async function runBlockbench(
 				process.exit(1)
 			})
 			.on('spawn', () => {
-				log().green('Blockbench launched successfully!\n')
+				log().green('Blockbench launched successfully\n')
 			})
 			.on('exit', code => {
 				if (code === 0) {
@@ -194,6 +196,10 @@ export async function runBlockbench(
 				} else {
 					reject(new Error('Blockbench exited with code: ' + code))
 				}
+			})
+			.on('close', () => {
+				log().green('Blockbench closed\n')
+				resolve()
 			})
 		bb.stdout.on('data', data => {
 			$(data)

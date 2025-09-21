@@ -1,6 +1,6 @@
-import type { Command } from 'commander'
 import { readdir } from 'fs/promises'
 import { pruneBlockbenchVersions, ResolvedBlockbenchVersion } from '../blockbenchVersionManager'
+import { registerCommand } from '../commandRegistry'
 import { log } from '../util'
 
 type PortableFileName = `blockbench-${ResolvedBlockbenchVersion}.${'exe' | 'dmg' | 'AppImage'}`
@@ -21,7 +21,7 @@ export async function blockbenchVersions(options: { prune?: true }) {
 	}
 }
 
-export default function register(program: Command) {
+registerCommand(program => {
 	program
 		.command('blockbench_versions')
 		.usage('[options]')
@@ -31,4 +31,4 @@ export default function register(program: Command) {
 			"uninstall any versions that aren't being used in an existing Environment from the cache"
 		)
 		.action(blockbenchVersions)
-}
+})

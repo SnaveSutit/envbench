@@ -1,19 +1,27 @@
-import type { Command } from 'commander'
-import fs from 'fs/promises'
-import pathjs from 'path'
+import { mkdir, rm } from 'fs/promises'
+import { join } from 'path'
 import { version as envbenchVersion } from '../../package.json'
 import {
 	type NamedBlockbenchVersion,
 	installVersion,
 	isValidBlockbenchVersion,
 } from '../blockbenchVersionManager'
-import { checkArgs, confirmPrompt, environmentExists, log, setEnvironmentFile } from '../util'
+import { registerCommand } from '../commandRegistry'
+import {
+	environmentExists,
+	setEnvironmentFile,
+	validateBlockbenchLaunchArgs,
+	validateEnvironmentName,
+} from '../environmentHandler'
+import { confirmPrompt, log } from '../util'
 
 export async function create(
 	name: string,
 	options: { force?: true; confirm?: true; launchArgs?: string; version: NamedBlockbenchVersion }
 ) {
-	const path = pathjs.join(process.env.ENVBENCH_STORAGE_FOLDER, name)
+	validateEnvironmentName(name)
+
+	const path = join(process.env.ENVBENCH_STORAGE_FOLDER, name)
 	if (await environmentExists(name)) {
 		if (!options.force) {
 			log().red(`Environment `).cyan(name).red(` already exists!\n`)
@@ -29,7 +37,7 @@ export async function create(
 		}
 		log().red(`Deleting existing environment `).cyan(name).red(`...\n`)
 		// Erase the existing environment
-		await fs.rm(path, { recursive: true }).catch(err => {
+		await rm(path, { recursive: true }).catch(err => {
 			log().red(`Failed to delete existing environment:\n`)
 			log().error(err)
 			process.exit(1)
@@ -52,14 +60,14 @@ export async function create(
 	await installVersion(options.version)
 
 	log().green(`Creating new environment `).cyan(name).green(`...\n`)
-	await fs.mkdir(path, { recursive: true }).catch(err => {
+	await mkdir(path, { recursive: true }).catch(err => {
 		log().red(`Failed to create environment:\n`)
 		log().error(err)
 		process.exit(1)
 	})
 
 	const launchArgs = options.launchArgs?.split(' ') ?? []
-	checkArgs(launchArgs)
+	validateBlockbenchLaunchArgs(launchArgs)
 
 	await setEnvironmentFile(
 		name,
@@ -75,7 +83,7 @@ export async function create(
 	log().green('Environment created successfully!\n')
 }
 
-export default function register(program: Command) {
+registerCommand(program => {
 	program
 		.command('create')
 		.usage('<name> [options]')
@@ -89,4 +97,4 @@ export default function register(program: Command) {
 			'additional arguments to pass to Blockbench when launching the environment'
 		)
 		.action(create)
-}
+})

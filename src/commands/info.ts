@@ -1,6 +1,7 @@
-import type { Command } from 'commander'
 import { terminal as $ } from 'terminal-kit'
-import { environmentExists, getEnvironmentFile, log } from '../util'
+import { registerCommand } from '../commandRegistry'
+import { environmentExists, getEnvironmentFile } from '../environmentHandler'
+import { log } from '../util'
 
 export async function info(name: string) {
 	if (!(await environmentExists(name))) {
@@ -19,11 +20,11 @@ export async function info(name: string) {
 	$.gray('└ ').green(`EnvBench Version: `).cyan(environment.envbench_version).green(`\n`)
 }
 
-export default function register(program: Command) {
+registerCommand(program => {
 	program
 		.command('info')
 		.usage('[options]')
 		.description('display information about a specific environment')
 		.argument('<name>', 'name of the environment to display information about')
 		.action(info)
-}
+})

@@ -1,5 +1,5 @@
 import tsESLint, { type ConfigWithExtends } from 'typescript-eslint'
-import type { NamingConventionRule } from './tools/tslintNamingConventionRule'
+import type { NamingConventionRule } from './.scripts/tslintNamingConventionRule'
 
 console.log(`[${new Date().toLocaleTimeString()}] Loading ESLint config`)
 

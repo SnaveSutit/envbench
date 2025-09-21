@@ -1,6 +1,7 @@
-import type { Command } from 'commander'
 import { terminal as $ } from 'terminal-kit'
-import { environmentExists, getEnvironmentStates, log } from '../util'
+import { registerCommand } from '../commandRegistry'
+import { environmentExists, getEnvironmentStates } from '../environmentHandler'
+import { log } from '../util'
 
 export async function list(options: { long?: true }) {
 	const environments = await getEnvironmentStates()
@@ -46,11 +47,11 @@ export async function list(options: { long?: true }) {
 	}
 }
 
-export default function register(program: Command) {
+registerCommand(program => {
 	program
 		.command('list')
 		.usage('[options]')
 		.description('list all available environments')
 		.option('-l, --long', 'show detailed information about each environment')
 		.action(list)
-}
+})

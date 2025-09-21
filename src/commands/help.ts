@@ -1,7 +1,8 @@
 import { default as chalk, chalkStderr } from 'chalk'
-import { type Command, Help } from 'commander'
+import { Help } from 'commander'
 import stripAnsi from 'strip-ansi'
 import wrapAnsi from 'wrap-ansi'
+import { registerCommand } from '../commandRegistry'
 
 export class EnvBenchHelp extends Help {
 	chalk = chalk
@@ -48,11 +49,11 @@ export class EnvBenchHelp extends Help {
 	}
 }
 
-export default function register(program: Command) {
+registerCommand(program => {
 	program.helpCommand('help [cmd]', 'Display help for a specific command.')
 	program.configureOutput({
 		outputError(str, write) {
 			write(chalkStderr.red(str))
 		},
 	})
-}
+})
