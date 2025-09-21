@@ -89,14 +89,15 @@ export async function getEnvironmentFile(name: string): Promise<EnvironmentFile>
 			if (typeof json.blockbench_version !== 'string') {
 				throw new EnvironmentError('Blockbench version must be a string!')
 			}
-			if (
-				json.launchArgs != undefined &&
-				Array.isArray(json.launchArgs) &&
-				json.launchArgs.every(arg => typeof arg === 'string')
-			) {
-				throw new EnvironmentError(
-					`Launch arguments must be an array of strings (or undefined), found '${typeof json.launchArgs}'`
-				)
+			if (json.launchArgs != undefined) {
+				if (
+					!Array.isArray(json.launchArgs) ||
+					!json.launchArgs.every(arg => typeof arg === 'string')
+				) {
+					throw new EnvironmentError(
+						`Launch arguments must be an array of strings (or undefined), found '${typeof json.launchArgs}'`
+					)
+				}
 			}
 			return json
 		})
