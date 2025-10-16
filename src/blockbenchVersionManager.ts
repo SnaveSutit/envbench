@@ -71,7 +71,7 @@ async function downloadNewPortableBlockbench(version: ResolvedBlockbenchVersion)
 	await customSpinner({
 		style: $.cyan,
 		prefix: log,
-		suffix: $.cyan.bindArgs(' Downloading Blockbench...'),
+		suffix: $.cyan.bindArgs(` Downloading Blockbench ${version}...`),
 		async waitFor() {
 			const res = await fetch(url)
 			if (!res.ok) {
